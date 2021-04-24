@@ -1,8 +1,14 @@
 package com.example.assignment.Tamir.model
 
-import com.example.assignment.Tamir.dto.GameDTO
+import com.example.assignment.Tamir.dto.Game
 import java.math.BigDecimal
-import javax.persistence.*
+import javax.persistence.Column
+import javax.persistence.Entity
+import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
+import javax.persistence.Id
+import javax.persistence.ManyToMany
+import javax.persistence.Table
 
 @Entity
 @Table(name = "game")
@@ -14,15 +20,18 @@ class GameModel(
     var id: Long,
 
     @Column(unique = true)
-    var gameName: String,
+    var name: String,
 
     @Column
-    var price: BigDecimal
+    var price: BigDecimal,
+
+    @ManyToMany
+    var accounts: List<AccountModel>
 ) {
 
-    fun toDTO() = GameDTO(
+    fun toDTO() = Game(
         id = id,
-        gameName = gameName,
+        name = name,
         price = price
     )
 }

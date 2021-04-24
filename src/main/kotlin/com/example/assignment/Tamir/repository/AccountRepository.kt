@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository
 interface AccountRepository: JpaRepository<AccountModel, Long> {
 
     fun findAccountByCardNumber(cardNumber: String): AccountModel?
+
+    fun findAccountModelByUserNameAndPassword(userName: String, password: String): AccountModel?
 }

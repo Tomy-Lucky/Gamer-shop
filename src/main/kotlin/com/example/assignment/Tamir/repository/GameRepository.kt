@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository
 @Repository
 interface GameRepository : JpaRepository<GameModel, Long> {
 
-    fun findByGameName(gameName: String): GameModel?
+    fun findByName(name: String): GameModel?
 }

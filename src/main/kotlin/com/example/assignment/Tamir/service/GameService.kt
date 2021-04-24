@@ -1,6 +1,6 @@
 package com.example.assignment.Tamir.service
 
-import com.example.assignment.Tamir.dto.GameDTO
+import com.example.assignment.Tamir.dto.Game
 import com.example.assignment.Tamir.dto.GameUpdateOptions
 import com.example.assignment.Tamir.dto.PurchasedGame
 import com.example.assignment.Tamir.exception.GameAlreadyExistsByNameException
@@ -25,26 +25,27 @@ class GameService(
     fun findById(id: Long) = (gameRepository.findByIdOrNull(id) ?: throw GameNotFoundByIdException(id)).toDTO()
 
     fun findByGameName(gameName: String) =
-        (gameRepository.findByGameName(gameName) ?: throw GameNotFoundByGameNameException(gameName)).toDTO()
+        (gameRepository.findByName(gameName) ?: throw GameNotFoundByGameNameException(gameName)).toDTO()
 
     @Transactional
-    fun addGame(gameDTO: GameDTO): GameDTO {
-        if (gameRepository.findByGameName(gameDTO.gameName) != null) throw GameAlreadyExistsByNameException(gameDTO.gameName)
+    fun addGame(game: Game): Game {
+        if (gameRepository.findByName(game.name) != null) throw GameAlreadyExistsByNameException(game.name)
 
         return gameRepository.save(
             GameModel(
                 id = 0,
-                gameName = gameDTO.gameName,
-                price = gameDTO.price
+                name = game.name,
+                price = game.price,
+                accounts = mutableListOf()
             )
         ).toDTO()
     }
 
     @Transactional
-    fun modifyGame(id: Long, updateOptions: GameUpdateOptions): GameDTO {
+    fun modifyGame(id: Long, updateOptions: GameUpdateOptions): Game {
         val gameModel = gameRepository.findByIdOrNull(id) ?: throw GameNotFoundByIdException(id)
 
-        if (updateOptions.gameName != null) gameModel.gameName = updateOptions.gameName
+        if (updateOptions.gameName != null) gameModel.name = updateOptions.gameName
         if (updateOptions.price != null) gameModel.price = updateOptions.price
 
         return gameModel.toDTO()
@@ -60,12 +61,16 @@ class GameService(
             amount = game.price
         )
 
+        accountService.addGameToAccount(
+            accountId = account.id,
+            gameId = game.id
+        )
+
         return PurchasedGame(
-            gameName = game.gameName,
+            gameName = game.name,
             price = game.price,
             message = "You are successfully buy game",
             balance = account.balance
         )
     }
-
 }

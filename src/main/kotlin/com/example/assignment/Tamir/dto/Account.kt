@@ -2,19 +2,21 @@ package com.example.assignment.Tamir.dto
 
 import java.math.BigDecimal
 
-data class AccountDTO(
+data class Account(
     val id: Long,
     val userName: String,
+    val password: String,
     val cardNumber: String,
     val pinCode: String,
-    val balance: BigDecimal
+    val balance: BigDecimal,
+    val games: List<Game>
 ) {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as AccountDTO
+        other as Account
 
         if (id != other.id) return false
         if (userName != other.userName) return false

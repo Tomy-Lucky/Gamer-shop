@@ -28,6 +28,8 @@ dependencies {
 
 	implementation("io.springfox:springfox-swagger2:2.9.2")
 	implementation("io.springfox:springfox-swagger-ui:2.9.2")
+	implementation ("org.springframework.boot:spring-boot-starter-security")
+	implementation ("com.auth0:auth0-spring-security-api:1.4.1")
 }
 
 tasks.withType<KotlinCompile> {

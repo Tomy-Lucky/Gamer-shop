@@ -1,6 +1,6 @@
 package com.example.assignment.Tamir.controller
 
-import com.example.assignment.Tamir.dto.AccountDTO
+import com.example.assignment.Tamir.dto.Account
 import com.example.assignment.Tamir.service.AccountService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -20,16 +20,19 @@ class AccountController(
     @GetMapping("/add/user-card")
     fun createUserCard(
         @RequestParam("userName", required = true) userName: String,
+        @RequestParam("password", required = true) password: String,
         @RequestParam("cardNumber", required = true) cardNumber: String,
         @RequestParam("pinCode", required = true) pinCode: String,
         @RequestParam("balance", required = true) balance: BigDecimal
     ) = accountService.createAccount(
-        accountDTO = AccountDTO(
+        account = Account(
             id = 0,
             userName = userName,
             cardNumber = cardNumber,
             pinCode = pinCode,
-            balance = balance
+            balance = balance,
+            games = arrayListOf(),
+            password = password
         )
     )
 

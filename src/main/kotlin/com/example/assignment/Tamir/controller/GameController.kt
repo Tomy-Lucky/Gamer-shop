@@ -1,14 +1,19 @@
 package com.example.assignment.Tamir.controller
 
-import com.example.assignment.Tamir.dto.GameDTO
+import com.example.assignment.Tamir.dto.Game
 import com.example.assignment.Tamir.dto.GameUpdateOptions
 import com.example.assignment.Tamir.service.GameService
-import org.springframework.web.bind.annotation.*
 import java.math.BigDecimal
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/game")
-class GameControlller(
+class GameController(
     private val gameService: GameService
 ) {
 
@@ -24,7 +29,7 @@ class GameControlller(
 
 
     @PostMapping("/add")
-    fun addGame(@RequestBody gameDTO: GameDTO) = gameService.addGame(gameDTO)
+    fun addGame(@RequestBody game: Game) = gameService.addGame(game)
 
     @GetMapping("/modify-by-id")
     fun modifyGameById(
