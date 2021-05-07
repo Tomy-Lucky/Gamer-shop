@@ -18,8 +18,10 @@ class AccountService(
     private val gameRepository: GameRepository
 ) {
 
+    @Transactional
     fun findAll() = accountRepository.findAll().map { it.toDTO() }
 
+    @Transactional
     fun findByNameAndPassword(userName: String, password: String) =
         accountRepository.findAccountModelByUserNameAndPassword(
             userName = userName,

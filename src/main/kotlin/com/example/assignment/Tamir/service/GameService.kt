@@ -18,12 +18,15 @@ class GameService(
     private val accountService: AccountService
 ) {
 
+    @Transactional
     fun findAll() = gameRepository.findAll().map {
         it.toDTO()
     }
 
+    @Transactional
     fun findById(id: Long) = (gameRepository.findByIdOrNull(id) ?: throw GameNotFoundByIdException(id)).toDTO()
 
+    @Transactional
     fun findByGameName(gameName: String) =
         (gameRepository.findByName(gameName) ?: throw GameNotFoundByGameNameException(gameName)).toDTO()
 

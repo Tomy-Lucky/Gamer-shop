@@ -1,20 +1,19 @@
 package com.example.assignment.Tamir.web.filters
 
-import com.example.assignment.Tamir.web.jwt.JWTService
 import com.auth0.jwt.exceptions.JWTVerificationException
+import com.example.assignment.Tamir.web.jwt.JWTService
 import javax.servlet.Filter
 import javax.servlet.FilterChain
 import javax.servlet.ServletRequest
 import javax.servlet.ServletResponse
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
-import org.springframework.core.Ordered
 import org.springframework.core.annotation.Order
 import org.springframework.http.HttpHeaders
 import org.springframework.stereotype.Component
 
 @Component
-@Order(Ordered.HIGHEST_PRECEDENCE)
+@Order(1)
 class JWTAuthorizationFilter(
     private val jwtService: JWTService
 ) : Filter {
@@ -22,7 +21,16 @@ class JWTAuthorizationFilter(
     private companion object {
         const val TOKEN_PREFIX = "Bearer "
         val exceptionRoutes = listOf(
+            "/swagger-ui.html",
+            "/webjars/springfox-swagger-ui/.*",
+            "/swagger-resources.*",
+            "/v2/api-docs.*",
+            "/api.*",
             "/auth/.*",
+            "/account/add/user-card",
+            "/account/users",
+            "/game/add",
+            "/game/find-all",
         )
     }
 
@@ -35,7 +43,7 @@ class JWTAuthorizationFilter(
             return
         }
 
-        val headerValue = req.getHeader(HttpHeaders.AUTHORIZATION)
+        val headerValue: String? = req.getHeader(HttpHeaders.AUTHORIZATION)
         if (headerValue === null || !headerValue.startsWith(TOKEN_PREFIX))
             return respondError(response = response, message = "BEARER_TOKEN_NOT_SET")
 

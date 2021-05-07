@@ -28,7 +28,7 @@ dependencies {
 
 	implementation("io.springfox:springfox-swagger2:2.9.2")
 	implementation("io.springfox:springfox-swagger-ui:2.9.2")
-	implementation ("org.springframework.boot:spring-boot-starter-security")
+	implementation ("org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.1.8.RELEASE")
 	implementation ("com.auth0:auth0-spring-security-api:1.4.1")
 }
 
